@@ -90,6 +90,8 @@ public class Archivio {
                     System.out.println("Chiudo...");
                     sc.close();
                     return;
+                default:
+                    System.out.println("Per favore inserisci un valore valido");
 
             }
         }
