@@ -1,12 +1,9 @@
 package esami.epicode;
 
 import com.github.javafaker.Faker;
+import esami.epicode.Classi.*;
 import esami.epicode.Classi.Enum.Genere;
 import esami.epicode.Classi.Enum.Periodicità;
-import esami.epicode.Classi.Libri;
-import esami.epicode.Classi.PubblicazioneNonTrovataException;
-import esami.epicode.Classi.Pubblicazioni;
-import esami.epicode.Classi.Riviste;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,8 +35,12 @@ public class Archivio {
 
             switch (operazione) {
                 case 1:
-                    archivio.add(addPubblicazione(sc));
-                    getArchivio();
+                    try {
+                        addPubblicazione(sc);
+                        getArchivio();
+                    } catch (CreazionePubblicazioneFallita e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case 2:
@@ -192,7 +193,7 @@ public class Archivio {
 
 
     // Es.1 ------Aggiunta di un elemento------------------------------------------------------------------------------------------
-    public static Pubblicazioni addPubblicazione(java.util.Scanner sc) {
+    public static void addPubblicazione(java.util.Scanner sc) throws CreazionePubblicazioneFallita{
         System.out.println("Che tipo di pubblicazione vuoi aggiungere all'archivio? Un libro o una rivista?");
         System.out.println("Premi -1- per aggiungere un libro");
         System.out.println("Premi -2- per aggiungere una rivista");
@@ -219,7 +220,7 @@ public class Archivio {
             sc.nextLine();
 
             String isbn = generateUniqueIsbn(); //controllo su isbn
-            return new Libri(autoreUtente, genereSelezionato, isbn, titolo, anno, numPagine);
+            archivio.add(new Libri(autoreUtente, genereSelezionato, isbn, titolo, anno, numPagine));
 
         } else if (sceltaPub == 2) {
             // Aggiunta di una rivista
@@ -238,11 +239,12 @@ public class Archivio {
 
             Periodicità periodicità = definePeriodicità(sc);
 
-            return new Riviste(isbn, titolo, anno, numPagine, periodicità);
+            archivio.add(new Riviste(isbn, titolo, anno, numPagine, periodicità)) ;
 
         } else {
-            System.out.println("Scelta non valida! Nessuna pubblicazione aggiunta.");
-            return null;
+            System.out.println(" ");
+            throw new CreazionePubblicazioneFallita("Valore non valido! Nessuna pubblicazione aggiunta. \n");
+
         }
     }
 
