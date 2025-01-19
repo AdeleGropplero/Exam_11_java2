@@ -14,14 +14,18 @@ public class Riviste extends Pubblicazioni {
         return periodicità;
     }
 
+    public void setPeriodicità(Periodicità periodicità) {
+        this.periodicità = periodicità;
+    }
+
     @Override
     public String toString() {
-        return "Riviste{" +
-                "isbn='" + isbn + '\'' +
-                ", titolo='" + titolo + '\'' +
-                ", anno=" + anno +
-                ", numPagine=" + numPagine +
-                ", periodicità=" + periodicità +
-                '}';
+        return  "\n" +"Rivista:" + "\n" +
+                "isbn= " + isbn  + ',' + "\n" +
+                "titolo= " + titolo  + ',' + "\n" +
+                "anno= " + anno + ',' + "\n" +
+                "numPagine= " + numPagine + ',' + "\n" +
+                "periodicità= " + periodicità + ',' + "\n" +
+                "----------";
     }
 }

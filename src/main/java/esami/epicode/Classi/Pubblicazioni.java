@@ -29,4 +29,19 @@ public abstract class Pubblicazioni {
         return this.numPagine;
     }
 
+    public void setTitolo(String titolo) {
+        this.titolo = titolo;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public void setAnno(int anno) {
+        this.anno = anno;
+    }
+
+    public void setNumPagine(int numPagine) {
+        this.numPagine = numPagine;
+    }
 }
