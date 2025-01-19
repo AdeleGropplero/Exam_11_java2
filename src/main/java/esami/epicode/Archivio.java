@@ -79,6 +79,13 @@ public class Archivio {
                         System.out.println(e.getMessage());
                     }
                     break;
+                case 7:
+                    try {
+                        getStats();
+                    } catch (PubblicazioneNonTrovataException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
                 case 0:
                     System.out.println("Chiudo...");
                     sc.close();
@@ -492,6 +499,27 @@ public class Archivio {
         }
     }
 
+    // Es. 7 ----------Stampa statistiche--------------------------------------------------------------------------------------
+
+    public static void getStats() throws PubblicazioneNonTrovataException {
+        long numeroLibri = archivio.stream().filter(pubblicazioni -> pubblicazioni instanceof Libri).count(); //era necessario il long
+        long numeroRiviste = archivio.stream().filter(pubblicazioni -> pubblicazioni instanceof Riviste).count();
+        int numTotPubblicazioni = archivio.size();
+        Pubblicazioni maxNumPagine = archivio.stream().max(Comparator.comparing(Pubblicazioni::getNumPagine))
+                                     .orElseThrow(() ->new PubblicazioneNonTrovataException("Pubblicazione non trovata."));
+        double averagePagine = archivio.stream().mapToInt(Pubblicazioni::getNumPagine).average()
+                                     .orElseThrow(() ->new PubblicazioneNonTrovataException("Pubblicazione non trovata."));
+
+        System.out.println("Ecco le statistiche del tuo archivio:");
+        System.out.println("Numero di tutte le pubblicazioni presenti: " + numTotPubblicazioni);
+        System.out.println("Di cui libri: " + numeroLibri);
+        System.out.println("Di cui riviste: " + numeroRiviste);
+        System.out.println("------------------------------------");
+        System.out.println("La pubblicazione con il massimo numero di pagine: \n" + maxNumPagine);
+        System.out.println("------------------------------------");
+        System.out.println("La media delle pagine di tutte le pubblicazioni: " + averagePagine);
+
+    }
 
 }
 
